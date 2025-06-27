@@ -14,7 +14,8 @@ def main():
 
     while running:
         clock = pygame.time.Clock()
-        dt = 0
+        dt = clock.tick(60) / 1000
+        player.update(dt)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
