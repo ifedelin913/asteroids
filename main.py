@@ -1,8 +1,10 @@
 import pygame
+import sys
 from constants import *
 from player import Player
 from asteroids import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 
 def main():
     print("Starting Asteroids!")
@@ -32,6 +34,13 @@ def main():
         clock = pygame.time.Clock()
         dt = clock.tick(60) / 1000
         updatables.update(dt) #update using updatables group
+        player.shots.update(dt) # update the shots group
+
+        # collision detection loop
+        for asteroid in asteroids:
+            if player.collision(asteroid) == True:
+                print("Game Over!")
+                sys.exit(0)
 
         # loop controls quit logic during runtime
         for event in pygame.event.get():
@@ -42,6 +51,10 @@ def main():
         screen.fill((0, 0, 0))
         for drawable in drawables:
             drawable.draw(screen)
+        
+        # draw shots
+        for shot in player.shots:
+            shot.draw(screen)
 
         pygame.display.flip()
 
