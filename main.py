@@ -33,14 +33,21 @@ def main():
     while running: # game loop
         clock = pygame.time.Clock()
         dt = clock.tick(60) / 1000
-        updatables.update(dt) #update using updatables group
-        player.shots.update(dt) # update the shots group
+        updatables.update(dt) 
+        player.shots.update(dt)
 
-        # collision detection loop
+        # player collision detection loop
         for asteroid in asteroids:
             if player.collision(asteroid) == True:
                 print("Game Over!")
                 sys.exit(0)
+        
+        # bullet collision detection loop
+        for asteroid in asteroids:
+            for shot in player.shots:
+                if shot.collision(asteroid) == True:
+                    shot.kill()
+                    asteroid.split()
 
         # loop controls quit logic during runtime
         for event in pygame.event.get():
